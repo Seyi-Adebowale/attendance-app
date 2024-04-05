@@ -1,0 +1,33 @@
+:root {
+  --color-red: #ee1b24;
+  --color-black: #2e2e2e;
+  --color-white: #fff;
+  --color-grey: #f9f9f9;
+  --color-shadow: #f3f3f3;
+  --color-blue: #0630c3;
+
+}
+* {
+  box-sizing: border-box;
+  font-family: "Quicksand", sans-serif;
+}
+body {
+  margin: 0;
+  padding: 0;
+}
+html {
+  font-size: 62.5%;
+}
+a{
+  text-decoration: none;
+}
+@media (max-width: 768px) {
+  html {
+    font-size: 58%;
+  }
+}
+@media (max-width: 340px) {
+  html {
+    font-size: 50%;
+  }
+}
