@@ -3,9 +3,9 @@ import React from 'react';
 
 const Settings = () => {
     return (
-        <div>
+        <main>
             <p>Welcome To Settings</p>
-        </div>
+        </main>
     );
 };
 

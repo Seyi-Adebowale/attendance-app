@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import './home-style.css';
-import { initClock } from '../clock'; // Import the clock script functions
+import { initClock } from '../clock';
 
 const Home = () => {
     useEffect(() => {
-        initClock(); // Call the initialization function when the component mounts
+        initClock();
         return () => {
-            // Clean up the interval when the component unmounts
             clearInterval(window.clockInterval);
         };
     }, []);

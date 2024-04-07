@@ -1,11 +1,10 @@
 import React from 'react';
-// import './home-style.css';
 
 const Reports = () => {
     return (
-        <div>
-            <p>Welcome To Dashboard</p>
-        </div>
+        <main>
+            <p>Reports Page</p>
+        </main>
     );
 };
 

@@ -3,9 +3,9 @@ import React from 'react';
 
 const Profiles = () => {
     return (
-        <div>
-            <p>Welcome To Dashboard</p>
-        </div>
+        <main>
+            <p>Welcome To Profiles Page</p>
+        </main>
     );
 };
 
