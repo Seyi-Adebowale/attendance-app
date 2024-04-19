@@ -668,7 +668,7 @@ button {
 @media only screen and (max-width: 767px) {
   .user,
   .kid {
-    flex-wrap: wrap; /* Allow items to wrap within the flex container */
+    flex-wrap: wrap;
   }
 
   .kid-name {
