@@ -36,21 +36,20 @@ function ProfilesPage() {
                 {/* Sidebar */}
                 <div className="sidebar">
                     <div className="tab-links">
-                        <a
-                            href="#"
+                        <button
                             className={activeTab === 'users' ? 'active' : ''}
                             onClick={() => handleTabClick('users')}
                         >
                             Users
-                        </a>
-                        <a
-                            href="#"
+                        </button>
+                        <button
                             className={activeTab === 'kids' ? 'active' : ''}
                             onClick={() => handleTabClick('kids')}
                         >
                             Kids
-                        </a>
+                        </button>
                     </div>
+
                 </div>
 
                 {/* Main Content */}
@@ -100,7 +99,7 @@ function ProfilesPage() {
                                 </div>
                                 {/* Filter dropdown */}
                                 <div className="filter-dropdown">
-                                    
+
                                     <button id="filter-button" className="button" onClick={handleFilterButtonClick}>
                                         Filter <i className="fas fa-filter"></i>
                                     </button>
