@@ -279,21 +279,24 @@ footer p {
   margin-bottom: 10px; /* Added margin bottom for spacing */
 }
 
-.close, i.fa-arrow-circle-left  {
+.close,
+i.fa-arrow-circle-left {
   font-size: 4rem;
   color: #0056b3;
   padding: 0px 10px;
   font-weight: bold;
   cursor: pointer;
 }
-.close{
+.close {
   float: right;
 }
-i.fa-arrow-circle-left{
+i.fa-arrow-circle-left {
   float: left;
 }
 .close:hover,
-.close:focus, i.fa-arrow-circle-left:hover, i.fa-arrow-circle-left:focus {
+.close:focus,
+i.fa-arrow-circle-left:hover,
+i.fa-arrow-circle-left:focus {
   color: black;
 }
 
@@ -316,14 +319,17 @@ i.fa-arrow-circle-left{
   background-color: #8888887e;
   font-weight: bold;
 }
-
-.child-list button.selected,
-.child-list button:hover,
-.guardian-list button:hover {
-  background-color: #4caf50; /* Green */
+@media (hover: hover) {
+  .child-list button:hover,
+  .guardian-list button:hover {
+    background-color: #4caf50;
+    color: white;
+  }
+}
+.child-list button.selected {
+  background-color: #4caf50;
   color: white;
 }
-
 .checkin-btnn {
   margin-top: 40px;
   padding: 10px 20px;
@@ -334,11 +340,9 @@ i.fa-arrow-circle-left{
   cursor: pointer;
   display: inline-block;
 }
-
 .checkin-btnn:hover {
   background-color: #0056b3;
 }
-
 .success-message {
   background-color: #4caf50;
   color: white;
@@ -355,24 +359,21 @@ i.fa-arrow-circle-left{
   font-size: 2rem;
   margin-top: 20px; /* Ensure proper spacing */
 }
-.checkin-details{
+.checkin-details {
   font-size: 2rem;
   margin-top: 50px;
 }
 .bold-text {
   font-weight: bold;
 }
-.success-box{
+.success-box {
   margin-top: 10%;
 }
-i.fa-check-circle{
+i.fa-check-circle {
   text-align: center;
   font-size: 5rem;
   color: green;
 }
-
-
-
 
 /* Dashboard */
 .dashboard {
@@ -717,9 +718,9 @@ button {
   background-color: #c82333;
 }
 @media screen and (max-width: 730px) {
- .search-bar{
-  margin-bottom: 20px;
- }
+  .search-bar {
+    margin-bottom: 20px;
+  }
 }
 .user,
 .kid {
@@ -797,7 +798,7 @@ button {
   }
 
   .kid-name {
-    width: 60%; 
+    width: 60%;
   }
 
   .kid-gender {
@@ -807,6 +808,6 @@ button {
 
   .kid .action-buttons {
     width: 100%;
-    margin: 10px auto 0
+    margin: 10px auto 0;
   }
 }
