@@ -25,6 +25,16 @@ const Home = () => {
     const welcomeSound = useRef(new Audio(welcomeSoundFile));
     const errorSound = useRef(new Audio(errorSoundFile));
 
+    // Enum or constants for modal stages
+    const MODAL_STAGES = {
+        PIN_INPUT: 'pinInput',
+        CHILD_SELECTION: 'childSelection',
+        GUARDIAN_SELECTION: 'guardianSelection',
+        CHECK_IN_SUCCESS: 'checkInSuccess',
+    };
+
+    const [currentStage, setCurrentStage] = useState(MODAL_STAGES.PIN_INPUT);
+
     useEffect(() => {
         initClock();
         return () => {
@@ -37,8 +47,9 @@ const Home = () => {
         const filtered = children.filter(child => child.pin === enteredPin);
         if (filtered.length > 0) {
             setFilteredChildren(filtered);
-            setModalContent('childSelection');
+            setModalContent(MODAL_STAGES.CHILD_SELECTION);
             setWrongPinError(false);
+            setCurrentStage(MODAL_STAGES.CHILD_SELECTION); // Update current stage
         } else {
             playErrorSound();
             setFilteredChildren([]);
@@ -68,14 +79,16 @@ const Home = () => {
         }
         setCheckInError('');
         playTapSound();
-        setModalContent('guardianSelection');
+        setModalContent(MODAL_STAGES.GUARDIAN_SELECTION);
+        setCurrentStage(MODAL_STAGES.GUARDIAN_SELECTION); // Update current stage
     };
 
     const handleGuardianSelect = (guardian) => {
         playTapSound();
         setSelectedGuardian(guardian);
-        setModalContent('checkInSuccess');
+        setModalContent(MODAL_STAGES.CHECK_IN_SUCCESS);
         performCheckIn();
+        setCurrentStage(MODAL_STAGES.CHECK_IN_SUCCESS); // Update current stage
     };
 
     const performCheckIn = async () => {
@@ -90,9 +103,10 @@ const Home = () => {
                 setSelectedChildren([]);
                 setSelectedGuardian('');
                 setShowModal(false);
-                setModalContent('pinInput');
+                setModalContent(MODAL_STAGES.PIN_INPUT);
                 setPin('');
                 setFilteredChildren([]);
+                setCurrentStage(MODAL_STAGES.PIN_INPUT); // Update current stage
             }, 5000);
 
         } catch (error) {
@@ -104,12 +118,13 @@ const Home = () => {
         playTapSound();
         setShowModal(false);
         setPin('');
-        setModalContent('pinInput');
+        setModalContent(MODAL_STAGES.PIN_INPUT);
         setSelectedChildren([]);
         setSelectedGuardian('');
         setWrongPinError(false);
         setFilteredChildren([]);
         setCheckInError('');
+        setCurrentStage(MODAL_STAGES.PIN_INPUT); // Update current stage
     };
 
     const playTapSound = () => {
@@ -125,6 +140,22 @@ const Home = () => {
     const playErrorSound = () => {
         errorSound.current.currentTime = 0;
         errorSound.current.play();
+    };
+
+    const handleBackButtonClick = () => {
+        switch (currentStage) {
+            case MODAL_STAGES.CHILD_SELECTION:
+                setModalContent(MODAL_STAGES.PIN_INPUT);
+                setCurrentStage(MODAL_STAGES.PIN_INPUT);
+                break;
+            case MODAL_STAGES.GUARDIAN_SELECTION:
+                setModalContent(MODAL_STAGES.CHILD_SELECTION);
+                setCurrentStage(MODAL_STAGES.CHILD_SELECTION);
+                break;
+            default:
+                // Handle additional stages if needed
+                break;
+        }
     };
 
     return (
@@ -151,8 +182,11 @@ const Home = () => {
             {showModal && (
                 <div className="modal">
                     <div className="modal-content">
-                        <span className="close" onClick={handleModalClose}>&times;</span>
-                        {modalContent === 'pinInput' && (
+                        {currentStage !== MODAL_STAGES.PIN_INPUT && (
+                            <i class="fas fa-arrow-circle-left" onClick={handleBackButtonClick}></i>
+                        )}
+                        <i class="fas fa-times-circle close" onClick={handleModalClose}></i>
+                        {modalContent === MODAL_STAGES.PIN_INPUT && (
                             <>
                                 <h2 className="modal-heading">Enter PIN</h2>
                                 <PinInput
@@ -164,7 +198,7 @@ const Home = () => {
                                 />
                             </>
                         )}
-                        {modalContent === 'childSelection' && (
+                        {modalContent === MODAL_STAGES.CHILD_SELECTION && (
                             <>
                                 <h2 className="modal-heading">Select Child</h2>
                                 <div className="child-list">
@@ -183,7 +217,7 @@ const Home = () => {
                             </>
                         )}
 
-                        {modalContent === 'guardianSelection' && (
+                        {modalContent === MODAL_STAGES.GUARDIAN_SELECTION && (
                             <>
                                 <h2 className="modal-heading">Check in By?</h2>
                                 <div className="guardian-list">
@@ -195,10 +229,10 @@ const Home = () => {
                                 </div>
                             </>
                         )}
-                        {modalContent === 'checkInSuccess' && (
+                        {modalContent === MODAL_STAGES.CHECK_IN_SUCCESS && (
                             <>
                                 <div className='success-box'>
-                                    <i class="fas fa-check-circle"></i>
+                                    <i className="fas fa-check-circle"></i>
                                     <h2 className='modal-heading'>Check-in successful!</h2>
                                     {selectedChildren.map(child => (
                                         <p className='checkin-details' key={child.id}>
