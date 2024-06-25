@@ -1,0 +1,64 @@
+.pin-input-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    /* height: 100vh; */
+}
+
+.pin-input {
+    font-size: 24px; /* Adjust font size as needed */
+    text-align: center;
+    padding: 20px;
+    width: 100%; /* Adjust width as needed */
+    /* border: 1px solid #ccc; */
+    border-radius: 5px;
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+}
+
+.pin-display {
+    font-size: 1.8rem; /* Adjust dot size */
+    height: 50px; /* Adjust height */
+    display: flex;
+    width: 90%;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #ccc;
+    margin: 0 auto 10px;
+}
+
+.pin-display span {
+    margin: 0 5px; /* Adjust spacing between dots */
+}
+
+.keypad {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.keypad-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+button {
+    font-size: 2rem; /* Adjust button font size */
+    padding: 10px 20px; /* Adjust button padding */
+    margin: 10px 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e0e0e0;
+}
+
+button:active {
+    background-color: #d0d0d0;
+}
+
+.fa-backspace {
+    font-size: 18px;
+}
