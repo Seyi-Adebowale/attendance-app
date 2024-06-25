@@ -29,7 +29,6 @@ function ProfilesPage() {
             checkbox.checked = false;
         });
     };
-    
 
     return (
         <main className='profiles-main'>
@@ -103,7 +102,7 @@ function ProfilesPage() {
                                 <div className="filter-dropdown">
                                     
                                     <button id="filter-button" className="button" onClick={handleFilterButtonClick}>
-                                        Filter <i class="fas fa-filter"></i>
+                                        Filter <i className="fas fa-filter"></i>
                                     </button>
                                     {filterActive && (
                                         <div className="filters">
