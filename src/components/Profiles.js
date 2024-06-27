@@ -10,7 +10,7 @@ function ProfilesPage() {
     const [pinError, setPinError] = useState('');
     const [staffName, setStaffName] = useState('');
     const [role, setRole] = useState('');
-    const [editUserId, setEditUserId] = useState('');
+    const [setEditUserId] = useState('');
     const [editName, setEditName] = useState('');
     const [editPin, setEditPin] = useState('');
     const [editStaffName, setEditStaffName] = useState('');
@@ -21,13 +21,7 @@ function ProfilesPage() {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [userToDelete, setUserToDelete] = useState(null);
 
-    // Kids form state
-    const [kidPhoto, setKidPhoto] = useState('');
-    const [kidSurname, setKidSurname] = useState('');
-    const [kidFirstName, setKidFirstName] = useState('');
-    const [kidMiddleName, setKidMiddleName] = useState('');
-    const [kidGender, setKidGender] = useState('');
-    const [kidDateOfBirth, setKidDateOfBirth] = useState('');
+  
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
