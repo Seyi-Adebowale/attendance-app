@@ -1,38 +1,140 @@
 import React, { useState } from 'react';
+import './profiles.css';
 
 function ProfilesPage() {
     const [activeTab, setActiveTab] = useState('users');
-    const [filterActive, setFilterActive] = useState(false);
+    const [showAddUserModal, setShowAddUserModal] = useState(false);
+    const [username, setUsername] = useState('');
+    const [pin, setPin] = useState('');
+    const [confirmPin, setConfirmPin] = useState('');
+    const [pinError, setPinError] = useState('');
+    const [staffName, setStaffName] = useState('');
+    const [role, setRole] = useState('');
+    const [editUserId, setEditUserId] = useState('');
+    const [editName, setEditName] = useState('');
+    const [editPin, setEditPin] = useState('');
+    const [editStaffName, setEditStaffName] = useState('');
+    const [editRole, setEditRole] = useState('');
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editingPin, setEditingPin] = useState(false);
+    const [isViewing, setIsViewing] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [userToDelete, setUserToDelete] = useState(null);
+
+    // Kids form state
+    const [kidPhoto, setKidPhoto] = useState('');
+    const [kidSurname, setKidSurname] = useState('');
+    const [kidFirstName, setKidFirstName] = useState('');
+    const [kidMiddleName, setKidMiddleName] = useState('');
+    const [kidGender, setKidGender] = useState('');
+    const [kidDateOfBirth, setKidDateOfBirth] = useState('');
 
     const handleTabClick = (tab) => {
         setActiveTab(tab);
     };
 
-    const handleFilterButtonClick = (e) => {
-        e.stopPropagation();
-        setFilterActive(!filterActive);
+    const handleAddUserClick = () => {
+        setShowAddUserModal(true);
     };
 
-    const handleCheckboxChange = () => {
-        const isChecked = document.querySelectorAll("input[type='checkbox']:checked").length > 0;
-        if (isChecked) {
-            // Apply highlight class or any other logic
+    const handleCloseModal = () => {
+        setShowAddUserModal(false);
+        setUsername('');
+        setPin('');
+        setConfirmPin('');
+        setPinError('');
+        setStaffName('');
+        setRole('');
+    };
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        if (pin !== confirmPin) {
+            setPinError('Pins do not match');
         } else {
-            // Remove highlight class or any other logic
+            setPinError('');
+            // Handle form submission logic here (e.g., API call)
+            console.log('User added:', { username, pin, staffName, role });
+            handleCloseModal();
         }
     };
 
-    const handleClearFilter = () => {
-        // Uncheck all checkboxes
-        const checkboxes = document.querySelectorAll('.filters input[type="checkbox"]');
-        checkboxes.forEach((checkbox) => {
-            checkbox.checked = false;
-        });
+    const handleEditUser = (user) => {
+        setEditUserId(user.id);
+        setEditName(user.name);
+        setEditPin(user.pin);
+        setEditStaffName(user.staffName || '');
+        setEditRole(user.role || '');
+        setShowEditModal(true);
+        setEditingPin(true);
+        setIsViewing(false);
+    };
+
+    const handleViewUser = (user) => {
+        setEditUserId(user.id);
+        setEditName(user.name);
+        setEditPin(user.pin);
+        setEditStaffName(user.staffName || '');
+        setEditRole(user.role || '');
+        setShowEditModal(true);
+        setIsViewing(true);
+    };
+
+    const handleEditModalClose = () => {
+        setShowEditModal(false);
+        setEditUserId('');
+        setEditName('');
+        setEditPin('');
+        setEditStaffName('');
+        setEditRole('');
+        setConfirmPin('');
+        setEditingPin(false);
+        setIsViewing(false);
+    };
+
+    const handleUpdateUser = (e) => {
+        e.preventDefault();
+        if (editingPin && editPin !== confirmPin) {
+            setPinError('Pins do not match');
+        } else {
+            setPinError('');
+            // Logic to update user here (frontend only)
+            // Update user in the list or send update request to backend if needed
+            console.log('User updated:', { editName, editPin, editStaffName, editRole });
+            setShowEditModal(false);
+            setEditUserId('');
+            setEditName('');
+            setEditPin('');
+            setEditStaffName('');
+            setEditRole('');
+            setConfirmPin('');
+            setEditingPin(false);
+            setIsViewing(false);
+        }
+    };
+
+    const handleDeleteUser = (user) => {
+        setUserToDelete(user);
+        setShowDeleteModal(true);
+    };
+
+    const confirmDeleteUser = () => {
+        // Perform deletion logic here (e.g., API call)
+        console.log('User deleted:', userToDelete);
+        // Close delete modal and reset state
+        setShowDeleteModal(false);
+        setUserToDelete(null);
+    };
+
+    const cancelDeleteUser = () => {
+        // Close delete modal and reset state
+        setShowDeleteModal(false);
+        setUserToDelete(null);
     };
 
     return (
-        <main className='profiles-main'>
-            <div className='profiles-container'>
+        <main className="profiles-main">
+            <div className="profiles-container">
                 {/* Sidebar */}
                 <div className="sidebar">
                     <div className="tab-links">
@@ -49,7 +151,6 @@ function ProfilesPage() {
                             Kids
                         </button>
                     </div>
-
                 </div>
 
                 {/* Main Content */}
@@ -58,33 +159,25 @@ function ProfilesPage() {
                     {activeTab === 'users' && (
                         <>
                             <div className="top-right top-right-user">
-                                <button className='profiles-btn add-btn'>Add User</button>
+                                <button className="profiles-btn add-btn" onClick={handleAddUserClick}>
+                                    Add User
+                                </button>
                             </div>
-                            <div className='users-list'>
-                                {/* Custom layout for users list */}
-                                <div className='user'>
-                                    <span>Admin1</span>
-                                    <span>
-                                        <button className="view-btn"><i className="fas fa-eye"></i></button>
-                                        <button className="edit-btn"><i className="fas fa-pencil-alt"></i></button>
-                                        <button className="delete-btn"><i className="fas fa-trash-alt"></i></button>
-                                    </span>
-                                </div>
-                                <div className='user'>
-                                    <span>Admin2</span>
-                                    <span>
-                                        <button className="view-btn"><i className="fas fa-eye"></i></button>
-                                        <button className="edit-btn"><i className="fas fa-pencil-alt"></i></button>
-                                        <button className="delete-btn"><i className="fas fa-trash-alt"></i></button>
-                                    </span>
-                                </div>
-                                <div className='user'>
-                                    <span>User1</span>
-                                    <span>
-                                        <button className="view-btn"><i className="fas fa-eye"></i></button>
-                                        <button className="edit-btn"><i className="fas fa-pencil-alt"></i></button>
-                                        <button className="delete-btn"><i className="fas fa-trash-alt"></i></button>
-                                    </span>
+                            <div className="users-list">
+                                {/* Example user rendering */}
+                                <div className="user">
+                                    <span className='person-name'>Akinduro Oluwafisayomi</span>
+                                    <div className='action-buttons'>
+                                        <button className="view-btn" onClick={() => handleViewUser({ id: 1, name: 'Admin1', pin: '1234', staffName: 'John Doe', role: 'Admin' })}>
+                                            <i className="fas fa-eye"></i>
+                                        </button>
+                                        <button className="edit-btn" onClick={() => handleEditUser({ id: 1, name: 'Admin1', pin: '1234', staffName: 'John Doe', role: 'Admin' })}>
+                                            <i className="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <button className="delete-btn" onClick={() => handleDeleteUser({ id: 1, name: 'Admin1' })}>
+                                            <i className="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </>
@@ -92,94 +185,178 @@ function ProfilesPage() {
 
                     {activeTab === 'kids' && (
                         <>
-                            <div className="top-right">
-                                <div className="search-bar">
-                                    <input type="text" placeholder="Search Kids" />
-                                    <button className="search-btn"><i className="fas fa-search"></i></button>
-                                </div>
-                                {/* Filter dropdown */}
-                                <div className="filter-dropdown">
-
-                                    <button id="filter-button" className="button" onClick={handleFilterButtonClick}>
-                                        Filter <i className="fas fa-filter"></i>
-                                    </button>
-                                    {filterActive && (
-                                        <div className="filters">
-                                            {/* Filter options */}
-                                            <label>Gender</label>
-                                            <label htmlFor="filter-male">
-                                                <input id="filter-male" type="checkbox" onChange={handleCheckboxChange} />
-                                                Male
-                                            </label>
-                                            <label htmlFor="filter-female">
-                                                <input id="filter-female" type="checkbox" onChange={handleCheckboxChange} />
-                                                Female
-                                            </label>
-                                            <label>Class</label>
-                                            <label htmlFor="filter-class-1">
-                                                <input id="filter-class-1" type="checkbox" onChange={handleCheckboxChange} />
-                                                Class 1
-                                            </label>
-                                            <label htmlFor="filter-class-2">
-                                                <input id="filter-class-2" type="checkbox" onChange={handleCheckboxChange} />
-                                                Class 2
-                                            </label>
-                                            {/* Add more filter options */}
-                                            <button className="button clear-button" onClick={handleClearFilter}>
-                                                Clear Filter
-                                            </button>
-                                        </div>
-                                    )}
-                                </div>
-                                <button className='profiles-btn add-btn'>New Registration</button>
+                            <div className="top-right top-right-user">
+                                <button className="profiles-btn add-btn" onClick={() => setShowAddUserModal(true)}>
+                                    Add Kid
+                                </button>
                             </div>
-                            <div className='kids-list'>
-                                {/* Custom layout for kids list */}
-                                <div className='kid'>
-                                    <span className='serial-number'>1</span>
-                                    <span className='kid-name'>Doe John</span>
-                                    <span className='kid-gender'>M</span>
-                                    <span className='action-buttons'>
-                                        <button className="view-btn"><i className="fas fa-eye"></i></button>
-                                        <button className="edit-btn"><i className="fas fa-pencil-alt"></i></button>
-                                        <button className="delete-btn"><i className="fas fa-trash-alt"></i></button>
-                                    </span>
-                                </div>
-                                <div className='kid'>
-                                    <span className='serial-number'>2</span>
-                                    <span className='kid-name'>Akinduro Oluwafisayomi</span>
-                                    <span className='kid-gender'>F</span>
-                                    <span className='action-buttons'>
-                                        <button className="view-btn"><i className="fas fa-eye"></i></button>
-                                        <button className="edit-btn"><i className="fas fa-pencil-alt"></i></button>
-                                        <button className="delete-btn"><i className="fas fa-trash-alt"></i></button>
-                                    </span>
-                                </div>
-                                <div className='kid'>
-                                    <span className='serial-number'>3</span>
-                                    <span className='kid-name'>Smith Jane</span>
-                                    <span className='kid-gender'>F</span>
-                                    <span className='action-buttons'>
-                                        <button className="view-btn"><i className="fas fa-eye"></i></button>
-                                        <button className="edit-btn"><i className="fas fa-pencil-alt"></i></button>
-                                        <button className="delete-btn"><i className="fas fa-trash-alt"></i></button>
-                                    </span>
-                                </div>
-                                <div className='kid'>
-                                    <span className='serial-number'>4</span>
-                                    <span className='kid-name'>Oluwaseyi Adebowale</span>
-                                    <span className='kid-gender'>F</span>
-                                    <span className='action-buttons'>
-                                        <button className="view-btn"><i className="fas fa-eye"></i></button>
-                                        <button className="edit-btn"><i className="fas fa-pencil-alt"></i></button>
-                                        <button className="delete-btn"><i className="fas fa-trash-alt"></i></button>
-                                    </span>
+                            <div className="kids-list">
+                                {/* Example kid rendering */}
+                                <div className="kid">
+                                    <span className='person-name'>Oloruntoba Tiwaloluwa</span>
+                                    <div className='action-buttons'>
+                                        <button className="view-btn" onClick={() => handleViewUser({ id: 1, name: 'Child1', pin: '5678', parentName: 'Jane Doe', grade: '1' })}>
+                                            <i className="fas fa-eye"></i>
+                                        </button>
+                                        <button className="edit-btn" onClick={() => handleEditUser({ id: 1, name: 'Child1', pin: '5678', parentName: 'Jane Doe', grade: '1' })}>
+                                            <i className="fas fa-pencil-alt"></i>
+                                        </button>
+                                        <button className="delete-btn" onClick={() => handleDeleteUser({ id: 1, name: 'Child1' })}>
+                                            <i className="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </>
                     )}
                 </div>
             </div>
+
+            {/* Add User or Add Kid Modal */}
+            {showAddUserModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <i className="fas fa-times-circle close" onClick={handleCloseModal}></i>
+                        <h2 className="modal-heading">{activeTab === 'users' ? 'Add User' : 'Add Kid'}</h2>
+                        <form className="profiles-form" onSubmit={handleFormSubmit}>
+                            <div className="form-group">
+                                <label>{activeTab === 'users' ? 'Username' : 'Child Name'}</label>
+                                <input
+                                    type="text"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>{activeTab === 'users' ? 'Staff Name' : 'Parent Name'}</label>
+                                <input
+                                    type="text"
+                                    value={staffName}
+                                    onChange={(e) => setStaffName(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>{activeTab === 'users' ? 'Role' : 'Grade'}</label>
+                                <input
+                                    type="text"
+                                    value={role}
+                                    onChange={(e) => setRole(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Pin</label>
+                                <input
+                                    type="password"
+                                    value={pin}
+                                    onChange={(e) => setPin(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Confirm Pin</label>
+                                <input
+                                    type="password"
+                                    value={confirmPin}
+                                    onChange={(e) => setConfirmPin(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            {pinError && <div className="error">{pinError}</div>}
+                            <button type="submit" className="submit-btn">
+                                Submit
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Edit or View User or Kid Modal */}
+            {showEditModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <i className="fas fa-times-circle close" onClick={handleEditModalClose}></i>
+                        <h2 className="modal-heading">{isViewing ? 'View Kid' : 'Edit Kid'}</h2>
+                        <form className="profiles-form" onSubmit={handleUpdateUser}>
+                            <div className="form-group">
+                                <label>{activeTab === 'users' ? 'Username' : 'Child Name'}</label>
+                                <input
+                                    type="text"
+                                    value={editName}
+                                    readOnly={isViewing}
+                                    onChange={(e) => setEditName(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>{activeTab === 'users' ? 'Staff Name' : 'Parent Name'}</label>
+                                <input
+                                    type="text"
+                                    value={editStaffName}
+                                    readOnly={isViewing}
+                                    onChange={(e) => setEditStaffName(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>{activeTab === 'users' ? 'Role' : 'Grade'}</label>
+                                <input
+                                    type="text"
+                                    value={editRole}
+                                    readOnly={isViewing}
+                                    onChange={(e) => setEditRole(e.target.value)}
+                                    required
+                                />
+                            </div>
+                            {!isViewing && (
+                                <>
+                                    <div className="form-group">
+                                        <label>Pin</label>
+                                        <input
+                                            type="password"
+                                            value={editPin}
+                                            onChange={(e) => setEditPin(e.target.value)}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Confirm Pin</label>
+                                        <input
+                                            type="password"
+                                            value={confirmPin}
+                                            onChange={(e) => setConfirmPin(e.target.value)}
+                                            required
+                                        />
+                                    </div>
+                                </>
+                            )}
+                            {pinError && <div className="error">{pinError}</div>}
+                            {!isViewing && (
+                                <button type="submit" className="submit-btn">
+                                    Update
+                                </button>
+                            )}
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* Delete User Modal */}
+            {showDeleteModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <i className="fas fa-times-circle close" onClick={cancelDeleteUser}></i>
+                        <h2 className="modal-heading">Confirm Deletion</h2>
+                        <p>Are you sure you want to delete {userToDelete ? userToDelete.name : 'this user'}?</p>
+                        <div className="modal-buttons">
+                            <button className="cancel-btn" onClick={cancelDeleteUser}>Cancel</button>
+                            <button className="confirm-btn" onClick={confirmDeleteUser}>Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </main>
     );
 }
